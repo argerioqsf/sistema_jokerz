@@ -1,0 +1,59 @@
+version: '3'
+
+services:
+  backend:
+    image: "backjokerz"
+    container_name: BACK-JOKERZ
+    volumes:
+      - ./back-jokerz:/node-app
+      - ./back-jokerz/node_modules:/node-app/node_modules
+    environment:
+      NODE_ENV: development
+    env_file:
+        "./back-jokerz/.env"
+    build:
+      context: ./back-jokerz
+      dockerfile: ./Dockerfile
+    depends_on:
+      - mongo
+    links:
+      - mongo
+    ports:
+      - '3333:3333'
+    networks:
+      - mongo-compose-network
+
+  mongo:
+    image: mongo
+    restart: always
+    container_name: MONGODB_MEDIUM
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongodb_data_container:/data/db
+    networks:
+      - mongo-compose-network
+      
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    networks:
+    - mongo-compose-network
+  
+  frontend:
+    image: "frontjokerz"
+    build:
+      context: ./front-jokerz
+      dockerfile: ./Dockerfile-prod
+    ports:
+      - '80:80'
+    links:
+      - "backend:be"
+
+networks: 
+  mongo-compose-network:
+    driver: bridge
+volumes:
+  mongodb_data_container:
