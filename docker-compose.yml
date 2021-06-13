@@ -6,7 +6,7 @@ services:
     container_name: BACK-JOKERZ
     volumes:
       - ./back-jokerz:/node-app
-      - ./back-jokerz/node_modules:/node-app/node_modules
+      - /node-app/node_modules
     environment:
       NODE_ENV: development
     env_file:
@@ -46,11 +46,9 @@ services:
     image: "frontjokerz"
     build:
       context: ./front-jokerz
-      dockerfile: ./Dockerfile-prod
+      dockerfile: Dockerfile-prod
     ports:
       - '80:80'
-    links:
-      - "backend:be"
 
 networks: 
   mongo-compose-network:
