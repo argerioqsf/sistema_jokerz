@@ -44,8 +44,6 @@ services:
   
   frontend:
     image: "frontjokerz"
-    env_file:
-        "./front-jokerz/.env"
     build:
       context: ./front-jokerz
       dockerfile: ./Dockerfile-prod
