@@ -1,19 +1,31 @@
 version: '3'
-
 services:
-  frontend:
-    container_name: front_jokerz
-    env_file:
-        "./front-jokerz/.env"
-    build:
-      context: ./front-jokerz
-      dockerfile: Dockerfile-prod
-    depends_on:
-      - backend
+  app-prod:
+      image: "frontjokerz"
+      container_name: dockerized-react-app
+      build:
+        context: ./front-jokerz
+        dockerfile: Dockerfile-prod
+      ports:
+        - 5000:80
+      depends_on:
+        - backend
+
+  reverse-proxy:
+    image: valian/docker-nginx-auto-ssl:1.0.0
+    container_name: reverse-proxy
+    restart: on-failure
     ports:
-      - '80:80'
-    networks:
-      - mongo-compose-network
+      - 80:80
+      - 443:443
+    volumes:
+      - ./.ssl-data:/etc/resty-auto-ssl
+    environment:
+      ALLOWED_DOMAINS: 'teamjokerz.com.br'
+      SITES: 'teamjokerz.com.br=app-prod:80'
+      FORCE_HTTPS: "true"
+    depends_on:
+      - app-prod
       
   backend:
     container_name: back_jokerz
@@ -57,4 +69,5 @@ networks:
   mongo-compose-network:
     driver: bridge
 volumes:
+  .ssl-data:
   mongodb_data_container:
