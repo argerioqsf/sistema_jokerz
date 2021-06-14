@@ -10,6 +10,8 @@ services:
         - 5000:80
       depends_on:
         - backend
+      networks:
+        - mongo-compose-network
 
   reverse-proxy:
     image: valian/docker-nginx-auto-ssl:1.0.0
@@ -21,11 +23,14 @@ services:
     volumes:
       - ./.ssl-data:/etc/resty-auto-ssl
     environment:
-      ALLOWED_DOMAINS: 'teamjokerz.com.br'
-      SITES: 'teamjokerz.com.br=app-prod:80'
+      ALLOWED_DOMAINS: '(www|api).teamjokerz.com.br'
+      SITES: 'www.teamjokerz.com.br=app-prod:80;api.teamjokerz.com.br=backend:3333'
       FORCE_HTTPS: "true"
     depends_on:
       - app-prod
+      - backend
+    networks:
+      - mongo-compose-network
       
   backend:
     container_name: back_jokerz
