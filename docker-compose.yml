@@ -42,8 +42,8 @@ services:
     volumes:
       - ./.ssl-data:/etc/resty-auto-ssl
     environment:
-      ALLOWED_DOMAINS: '(www|api).teamjokerz.com.br'
-      SITES: 'www.teamjokerz.com.br=app-prod:80;api.teamjokerz.com.br=backend:3333'
+      ALLOWED_DOMAINS: '(www|api).duarteanath.com.br'
+      SITES: 'www.duarteanath.com.br=app-prod:80;api.duarteanath.com.br=backend:3333'
       FORCE_HTTPS: "true"
     depends_on:
       - app-prod
