@@ -1,23 +1,23 @@
 version: '3'
 services:
 
-  bot:
-    image: "botjokerz"
-    container_name: BOT-JOKERZ
-    volumes:
-      - ./botlive/sorteio:/node-app
-      - /node-app/node_modules
-    environment:
-      NODE_ENV: development
-    build: 
-      context: ./botlive
-      dockerfile: Dockerfile
-    depends_on:
-      - mongo
-    links:
-      - mongo
-    networks:
-    - mongo-compose-network
+  # bot:
+  #   image: "botjokerz"
+  #   container_name: BOT-JOKERZ
+  #   volumes:
+  #     - ./botlive/sorteio:/node-app
+  #     - /node-app/node_modules
+  #   environment:
+  #     NODE_ENV: development
+  #   build: 
+  #     context: ./botlive
+  #     dockerfile: Dockerfile
+  #   depends_on:
+  #     - mongo
+  #   links:
+  #     - mongo
+  #   networks:
+  #   - mongo-compose-network
 
   app-prod:
       image: "frontjokerz"
@@ -26,7 +26,7 @@ services:
         context: ./front-jokerz
         dockerfile: Dockerfile-prod
       ports:
-        - 5000:80
+        - 3002:80
       depends_on:
         - backend
       networks:

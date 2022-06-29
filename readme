@@ -1,0 +1,14 @@
+- criar streamer
+    - criar acounts links
+        - twitch
+        - streamelements
+    - criar permissoes
+        - admin
+            - 1
+        - streamer
+            - 2
+        - viewer
+            - 3
+    - criar streamer
+    - setar os acounts links no usuário criado
+    - criar pasta uploads na raiz da pasta src do back
